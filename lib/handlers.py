@@ -1,3 +1,5 @@
+from javascript import On
+
 def setup_handlers(bot, config):
     @On(bot, "login")
     def on_login(this):
@@ -6,7 +8,11 @@ def setup_handlers(bot, config):
 
     @On(bot, "error")
     def on_error(err, *args):
-        print("Connection ERROR", err, args)
+        err_text = str(err)
+        print("Connection ERROR", err_text, args)
+
+        if "ECONNREFUSED" in err_text or "ENOTFOUND" in err_text:
+            print("Server appears offline/unreachable. If this is an Aternos server, start it in the panel first.")
 
     @On(bot, "kicked")
     def on_kicked(this, reason, *args):
